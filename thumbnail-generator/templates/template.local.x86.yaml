@@ -1,0 +1,26 @@
+Transform: AWS::Serverless-2016-10-31
+Description: 영상 썸네일 추출 애플리케이션
+
+Resources:
+  ThumbnailGenerator:
+    Type: AWS::Serverless::Function
+
+    Metadata:
+      Dockerfile: ./dockerfiles/Dockerfile
+      DockerContext: ../
+
+    Properties:
+      FunctionName: ThumbnailGenerator
+      Runtime: python:3.9
+      PackageType: Image
+      Timeout: 600
+      MemorySize: 1024
+      Environment:
+        Variables:
+          LEVEL: LEVEL
+          AWS_REGION_NAME: AWS_REGION        
+          AWS_ACCESS_KEY_ID: AWS_ACCESS_KEY_ID
+          AWS_SECRET_ACCESS_KEY: AWS_SECRET_ACCESS_KEY
+          AWS_ENDPOINT_URL: AWS_ENDPOINT_URL
+          SLACK_CHANNEL_ID: SLACK_CHANNEL_ID
+          SLACK_BOT_TOKEN: SLACK_BOT_TOKEN

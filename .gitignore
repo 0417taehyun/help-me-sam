@@ -1,0 +1,11 @@
+# MacOS
+.DS_Store
+
+# Environment variable
+env.json
+
+# Package
+.venv
+
+# AWS SAM
+.aws-sam

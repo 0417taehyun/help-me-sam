@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "thumbnail-generator"
+version = "0.1.0"
+description = "AWS Lambda로 구축된 영상으로부터 썸네일 이미지를 생성하고 Slack 채널에 알림 메시지를 전송하는 애플리케이션"
+authors = ["Taehyun Lee <0417taehyun@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pydantic = "1.10"
+boto3 = "^1.28.20"
+slack-sdk = "^3.21.3"
+
+[tool.poetry.group.local-test.dependencies]
+aws-sam-cli = "^1.94.0"
+
+[tool.poetry.group.linter.dependencies]
+pre-commit = "^3.3.3"
+black = "^23.7.0"
+isort = "^5.12.0"
+mypy = "^1.4.1"
+
+[tool.black]
+line-length = 120
+target-version = ["py39"]
+
+[tool.isort]
+line_length = 120
+py_version = 39
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
