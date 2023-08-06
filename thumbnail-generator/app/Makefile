@@ -6,7 +6,7 @@ install:
 
 .PHONY: lint
 lint:
-	@poetry run pre-commit run
+	@poetry run pre-commit
 
 .PHONY: environment
 environment:
