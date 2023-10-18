@@ -1,0 +1,45 @@
+name: Deploy serverless applications to AWS with SAM
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  
+    steps:
+      - name: Checkout GitHub
+        uses: actions/checkout@v2
+
+      - name:
+        uses: actions/setup-python@v2
+      
+      - name:
+        uses: aws-actions/setup-sam@v1
+
+      - name:
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}    
+
+      - name:
+        id: 
+        run: |
+          CHANGE_DIR=$(git diff --name-only HEAD^ HEAD | grep '/' | awk -F/ '{ print $1 }' | uniq)
+          echo "Changed directories: $CHANGE_DIR"
+          COUNT=$(echo $CHANGE_DIR | wc -w)
+          if [ $COUNT -ne 1 ]; then
+            echo "Error: Changes must be in only one directory, but found changes in $COUNT directories."
+            exit 1
+          fi
+          echo "::set-output name=changed-dir::$CHANGE_DIR"          
+
+      - name:    
+        run: sam build
+        working-directory: cloud-resume-challenge
+
+      - name:
+        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset
+        working-directory: cloud-resume-challenge

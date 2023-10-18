@@ -18,7 +18,7 @@ build:
 
 .PHONY: invoke
 invoke:
-	@poetry run sam local invoke -t .aws-sam/build/template.yaml -e ../events/event.json --env-vars ../environments/env.local.json --force-image-build
+	@poetry run sam local invoke -t .aws-sam/build/template.yaml -e ../events/event.json --env-vars ../environments/env.json --force-image-build
 
 .PHONY: initial-run
 initial-run:
