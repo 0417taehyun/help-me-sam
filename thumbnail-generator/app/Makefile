@@ -8,8 +8,8 @@ install:
 lint:
 	@poetry run pre-commit
 
-.PHONY: environment
-environment:
+.PHONY: local-environment
+local-environment:
 	cd ../dockerfiles/ && docker-compose -p aws-local-enviornment up -d --build
 
 .PHONY: build
@@ -20,10 +20,6 @@ build:
 invoke:
 	@poetry run sam local invoke -t .aws-sam/build/template.yaml -e ../events/event.json --env-vars ../environments/env.json --force-image-build
 
-.PHONY: initial-run
-initial-run:
-	@make environment && cd ../app/ && make build && make invoke
-
-.PHONY: run
-run:
+.PHONY: local-run
+local-run:
 	@make build && make invoke

@@ -1,2 +1,1 @@
-from src.util.extractor import ThumbnailImageExtractor
-from src.util.parser import AWSEventParser
+from src.util.aws import AWSS3APIInterface, AWSS3API

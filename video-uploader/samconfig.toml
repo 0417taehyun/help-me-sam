@@ -1,0 +1,16 @@
+version = 0.1
+
+[default]
+[default.global]
+[default.global.parameters]
+stack_name = "video-uploader"
+
+[default.build.parameters]
+cached = true
+parallel = true
+
+[default.deploy.parameters]
+region = "ap-north-east-2"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+

@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  s3-local:
+    image: localstack/localstack
+    container_name: localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=s3
+      - DEFAULT_REGION=ap-northeast-2
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test      
+
+  aws-cli:
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile.local
+    container_name: aws-cli
+    environment:
+      AWS_DEFAULT_REGION: ap-northeast-2
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+    depends_on:
+      - s3-local

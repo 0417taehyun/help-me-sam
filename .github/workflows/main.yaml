@@ -5,41 +5,46 @@ on:
       - main
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest  
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      changed-count: ${{ steps.get-changed-application.outputs.changed-count }}
+      changed-application: ${{ steps.get-changed-application.outputs.changed-application }}
     steps:
       - name: Checkout GitHub
         uses: actions/checkout@v2
 
-      - name:
-        uses: actions/setup-python@v2
-      
-      - name:
-        uses: aws-actions/setup-sam@v1
-
-      - name:
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}    
-
-      - name:
-        id: 
+      - name: Get changed application
+        id: get-changed-application
         run: |
-          CHANGE_DIR=$(git diff --name-only HEAD^ HEAD | grep '/' | awk -F/ '{ print $1 }' | uniq)
-          echo "Changed directories: $CHANGE_DIR"
-          COUNT=$(echo $CHANGE_DIR | wc -w)
-          if [ $COUNT -ne 1 ]; then
-            echo "Error: Changes must be in only one directory, but found changes in $COUNT directories."
-            exit 1
-          fi
-          echo "::set-output name=changed-dir::$CHANGE_DIR"          
+          chmod +x ./scripts/check-deploy-application.sh
+          ./scripts/check-deploy-application.sh       
 
-      - name:    
-        run: sam build
-        working-directory: cloud-resume-challenge
+  deploy:
+      needs: prepare
+      if: ${{ needs.prepare.outputs.changed-count == '1' }}
+      runs-on: ubuntu-latest  
+      steps:
+        - name: Checkout GitHub
+          uses: actions/checkout@v2
+                
+        - name: Set up Python
+          uses: actions/setup-python@v2
+        
+        - name: Install AWS SAM CLI
+          uses: aws-actions/setup-sam@v1
 
-      - name:
-        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset
-        working-directory: cloud-resume-challenge
+        - name: Configure AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v1
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ${{ secrets.AWS_REGION }}
+
+        - name: Build serverless applicatio with SAM
+          run: sam build -t ./templates/template.yaml
+          working-directory: ${{ needs.prepare.outputs.changed-application }}
+
+        - name: Deploy serverless application with AWS
+          run: sam deploy -t .aws-sam/build/template.yaml
+          working-directory: ${{ needs.prepare.outputs.changed-application }}

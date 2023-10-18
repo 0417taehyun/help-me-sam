@@ -1,0 +1,10 @@
+{
+  "LambdaFunctionConfigurations": [
+    {
+      "LambdaFunctionArn": "arn:aws:lambda:ap-northeast-2:000000000000:function:thumbnail-generator",
+      "Events": [
+        "s3:ObjectCreated:*"
+      ]
+    }
+  ]
+}

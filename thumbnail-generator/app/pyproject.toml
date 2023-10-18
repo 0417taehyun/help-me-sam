@@ -9,7 +9,6 @@ readme = "README.md"
 python = "^3.9"
 pydantic = "1.10"
 boto3 = "^1.28.20"
-slack-sdk = "^3.21.3"
 
 [tool.poetry.group.local-test.dependencies]
 aws-sam-cli = "^1.94.0"

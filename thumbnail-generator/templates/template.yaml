@@ -1,5 +1,5 @@
 Transform: AWS::Serverless-2016-10-31
-Description: 영상 썸네일 추출 애플리케이션
+Description: 영상 썸네일 이미지 추출 애플리케이션
 
 Resources:
   ThumbnailGenerator:
@@ -14,13 +14,17 @@ Resources:
       Runtime: python:3.9
       PackageType: Image
       Timeout: 600
-      MemorySize: 1024
-      Environment:
-        Variables:
-          LEVEL: LEVEL
-          AWS_REGION_NAME: AWS_REGION        
-          AWS_ACCESS_KEY_ID: AWS_ACCESS_KEY_ID
-          AWS_SECRET_ACCESS_KEY: AWS_SECRET_ACCESS_KEY
-          AWS_ENDPOINT_URL: AWS_ENDPOINT_URL
-          SLACK_CHANNEL_ID: SLACK_CHANNEL_ID
-          SLACK_BOT_TOKEN: SLACK_BOT_TOKEN
+      MemorySize: 1024      
+      Events:
+        VideoUpload:
+          Type: S3
+          Properties:
+            Bucket: AWS::S3::Bucket
+            Events: s3:ObjectCreated:*
+            Filter:
+              S3Key:
+                Rules:
+                  - Name: suffix
+                    Value: .mp4
+      
+    

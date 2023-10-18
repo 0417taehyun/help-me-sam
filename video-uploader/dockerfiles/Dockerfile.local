@@ -1,0 +1,8 @@
+FROM amazon/aws-cli
+
+COPY ./scripts/ /scripts/
+
+RUN chmod +x /scripts/local_aws_s3_setup.sh
+
+ENTRYPOINT [ ]
+CMD ["/scripts/local_aws_s3_setup.sh"]

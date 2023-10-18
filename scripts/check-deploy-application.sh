@@ -1,14 +1,14 @@
-# !/bin/bash
+#!/bin/bash
 
-CHANGE_DIR=$(git diff --name-only HEAD^ HEAD | cut \d'/' -f1 | uniq)
+CHANGED_DIRECTORIES=$(git diff --name-only HEAD^ HEAD | grep '/' | awk -F/ '{ print $1 }' | uniq)
+echo "Changed directories: \n$CHANGED_DIRECTORIES"
 
-echo "Changed directories: $CHANGE_DIR"
-
-COUNT=$(echo $CHANGE_DIR | wc -w)
+COUNT=$(echo $CHANGED_DIRECTORIES | wc -w)
 
 if [ $COUNT -ne 1 ]; then
-    echo "Error: Changes must be in only one directory, but found changes in $COUNT directories."
+    echo "Error: Only one application directory must be changed, but found $COUNT."
     exit 1
 fi
 
-echo "::set-output name=changed-dir::$CHANGE_DIR"
+echo "::set-output name=changed-application::$CHANGED_DIRECTORIES"
+echo "::set-output name=changed-count::$COUNT"

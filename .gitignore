@@ -6,6 +6,7 @@ env.json
 
 # Package
 .venv
+requirements.txt
 
 # AWS SAM
 .aws-sam

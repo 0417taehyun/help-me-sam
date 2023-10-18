@@ -15,6 +15,7 @@
 #### 발표 이력
 
 - 2023년 08월 07일 월요일: AWS 대학생 동아리 AUSG 빅책(BigChat)
+- 2023년 
 
 #### 소개
 
@@ -23,9 +24,11 @@
 #### 발표 자료
 
 발표 자료는 [0417taehyun/Presentation](https://github.com/0417taehyun/Presentation) 레포지토리에서 확인 가능해요.
+
 ### 영상 업로드
 
-> 현재 작업 진행 중이에요.
+
+
 
 ### 영상 썸네일 이미지 생성
 
@@ -44,8 +47,3 @@
 ![로컬 환경에서의 구조](./images/thumbnail-generator/02.png)
 
 이때 로컬 환경에서 AWS Lambda 애플리케이션에 대한 통합 테스트(Integration Test)를 위해 위 이미지와 같이 AWS SAM을 통해 핸들러(Handler)를 호출(Invoke)하고, LocalStack을 활용해 로컬 환경에 AWS의 오브젝트 스토리지 서비즈인 S3를 구축해요.
-
-
-### 메시지 전송
-
-> 현재 작업 진행 중이에요.

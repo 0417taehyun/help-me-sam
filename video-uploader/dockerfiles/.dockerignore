@@ -1,0 +1,9 @@
+# Makefile
+*/Makefile
+
+# Package
+*/.venv
+*/poetry.toml
+
+# pre-commit
+*/.pre-commit-config.yaml
