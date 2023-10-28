@@ -1,5 +1,0 @@
-{
-    "yaml.schemas": {
-        "https://json.schemastore.org/github-action.json": "file:///Users/taehyun/Documents/01_Project/99_Etc/help-me-sam/.github/workflows/deploy.yaml"
-    }
-}
